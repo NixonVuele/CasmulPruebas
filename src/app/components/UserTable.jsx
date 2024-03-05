@@ -1,33 +1,39 @@
-
 import React from 'react';
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableHeaderCell,
+  TableBody,
+  TableCell,
+  Text
+} from '@tremor/react';
 
-function UserTable({users}) {
-  console.log(users.map(({ id, nombre, ciudad }) => ({ id, nombre, ciudad })));
+export default function UserTable({users}) {
   console.log(users)
-  // console.log("ID:", id);
-  // console.log("Nombre:", nombre);
-  // console.log("Ciudad:", ciudad);
-
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Ciudad</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Celular</TableHeaderCell>
+          <TableHeaderCell>Email</TableHeaderCell>
+          <TableHeaderCell>Ver ruta</TableHeaderCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
         {users.map(({ id, nombre, ciudad }) => (
-          <tr key={id}>
-            <td>{id}</td>
-            <td>{nombre}</td>
-            <td>{ciudad}</td>
-          </tr>
+          <TableRow key={id}>
+            <TableCell>{nombre}</TableCell>
+            <TableCell>
+              <Text>{ciudad}</Text>
+            </TableCell>
+            <TableCell>
+              <button> hola </button>
+            </TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
-);
+      </TableBody>
+    </Table>
+  );
 }
-
-export default UserTable;

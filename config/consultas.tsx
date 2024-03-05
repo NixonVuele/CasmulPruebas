@@ -6,7 +6,7 @@ import { collection, getDocs } from 'firebase/firestore/lite';
 // Función para recuperar usuarios de la base de datosf
 export async function fetchUsersFromDataBase(db: Firestore) {
     try {
-        const usersQuerySnapshot = await getDocs(collection(db, "users"));
+        const usersQuerySnapshot = await getDocs(collection(db, "usuarios"));
         const users = usersQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         return users;
     } catch (error) {
