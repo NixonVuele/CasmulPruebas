@@ -6,7 +6,7 @@ import { query, where } from "firebase/firestore";
 
 
 // Función para recuperar usuarios de la base de datosf
-export async function fetchUsersFromDataBase(db: Firestore) {
+export async function fetchUsersFromDataBase(db) {
     try {
         const usersQuerySnapshot = await getDocs(collection(db, "usuarios"));
         const users = usersQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -17,7 +17,7 @@ export async function fetchUsersFromDataBase(db: Firestore) {
     }
 }
 
-export async function fetchUsersAdministrativosFromDataBase(db: Firestore) {
+export async function fetchUsersAdministrativosFromDataBase(db) {
     try {
         const usersQuerySnapshot = await getDocs(collection(db, "usuariosAdministrativos"));
         const users = usersQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -29,7 +29,7 @@ export async function fetchUsersAdministrativosFromDataBase(db: Firestore) {
 }
 
 // Función para recuperar las rutas de un solo usuario de la base de datos
-export async function fetchRoutesFromDataBase(db: Firestore, { params: { id },selectedDate , firstLoad }:any) {
+export async function fetchRoutesFromDataBase(db, { params: { id },selectedDate , firstLoad }) {
     try {
         console.log(firstLoad)
         //const { id, selectedDate } = params;
