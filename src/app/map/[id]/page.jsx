@@ -14,7 +14,9 @@ import {
 import Mapa from './mapa';
 import { fetchRoutesFromDataBase } from '@/app/config/consultas';
 import { db } from '../../config/firebase';
+import dynamic from "next/dynamic";
 
+// Componente: HeroLocation
 
 export default function Rutas({ params }) {
   console.log(params);
@@ -32,24 +34,13 @@ export default function Rutas({ params }) {
       if (Array.isArray(usersData) && usersData.length === 0) {
         setUsers(usersData)
       }
-      console.log("El userData es un arreglo vacío.");
-      console.log('Estoy en el slider');
-      console.log(usersDataArray);
-      console.log(usersData)
       if (usersData && usersData[0].createdAt) {
         const fechaUnica = usersData[0].createdAt.toDate(); // Tomamos la primera fecha de la lista
         if (fechaUnica.getTime() !== selectedDate.getTime()) {
           setSelectedDate(fechaUnica);
           //firstLoad(false);
         }
-        console.log(fechaUnica)
-        //setSelectedDate(fechaUnica);
       }
-      
-      console.log(selectedDate);
-      //setUsers(Array.isArray(usersData) ? usersData : [usersData]);
-      console.log(usersData)
-
       setUsers(usersData);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -62,7 +53,6 @@ export default function Rutas({ params }) {
 
   useEffect(() => {
     if (users && users.length > 0) {
-      console.log(users)
       setSelectedUserId(users[0].id);
        // Asignar el primer ID por defecto
     }
@@ -105,6 +95,6 @@ export default function Rutas({ params }) {
         
         {selectedUserId && <Mapa users={users} selectedUserId={selectedUserId}></Mapa>}
       </div>
-    </div>
+      </div>
   );
 }
