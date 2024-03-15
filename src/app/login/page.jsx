@@ -1,10 +1,11 @@
 'use client'
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import as from  "../../../public/fondo.png";
+import as from  "../../../public/fondo1.png";
 import Image from 'next/image';
 import {signIn} from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import logCas from '../../../public/casmulLogin.png'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -26,7 +27,7 @@ const LoginForm = () => {
     if(res.error){
         alert(res.error);
     }else{
-      router.push('/')
+      router.push('/usuarios')
     }
 
     // Limpia los campos después de enviar el formulario
@@ -40,8 +41,14 @@ const LoginForm = () => {
  
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Bienvenido
+        <Image 
+          src={logCas}   
+          width={300}
+          height={300} 
+          alt="logoCasmul" 
+          className="mx-auto"/>
+          <h2 className="mt-10 text-center text-2xl font-normal leading-9 tracking-tight text-gray-900">
+            Iniciar sesión
           </h2>
         </div>
 

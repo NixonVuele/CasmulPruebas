@@ -4,7 +4,7 @@ import { Marker, Popup} from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-export default function Marker2({latitud, longitud}) {
+export default function Marker2({latitud, longitud, message}) {
   return (
     <Marker icon={
         new L.Icon({

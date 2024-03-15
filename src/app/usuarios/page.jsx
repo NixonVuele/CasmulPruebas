@@ -2,62 +2,104 @@
 import { Card, Title, Text } from '@tremor/react';
 import { useState,useEffect, use } from 'react';
 import { db } from '../config/firebase'
-import {fetchRoutesFromDataBase, fetchUsersFromDataBase} from '../config/consultas'
+import DataTable from 'react-data-table-component';
+import { fetchRoutesFromDataBase, fetchUsersFromDataBase } from '../config/consultas'
 import { Table } from 'flowbite-react';
 import Link from 'next/link';
-
-export default function Component() {
+function TableUsers() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true); // Estado para controlar si se están cargando los datos
+  const [loadingData, setLoadingData] = useState(true); // Estado para controlar si se están cargando los datos
 
+  const columns = [
+    {
+      name: "Nombre",
+      selector: (row) => row.nombre,
+      sortable: true,
+    },
+    {
+      name: "Grupo",
+      selector: (row) => row.grupo,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Rutas",
+      selector: (row) => (
+        <Link href={`/map/${row.id}`} className='Btn bg-[#7A6F6A]'>
+        Ver rutas
+      </Link>
+      
+      ),
+      sortable: true,
+    },
+  ];
+  const [records, setRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+ 
+      // setRecords(users);
+      setLoading(false);
+  }, []);
+  
   const fetchData = async () => {
     try {
       const usersData = await fetchUsersFromDataBase(db);
+      setRecords(usersData);
       setUsers(usersData);
-      setLoading(false); // Marcar como cargados los datos
-      console.log(usersData); 
+      setLoadingData(false); // Marcar como cargados los datos
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
   useEffect(() => {
-    if (loading) { // Solo cargar datos si aún no se han cargado
+    if (loadingData) { // Solo cargar datos si aún no se han cargado
       fetchData();
     }
-  }, [loading]); // Ejecutar solo cuando el estado de carga cambie
+  }, [loadingData]); // Eje
+
+  const handleChange = (e) => {
+    const filteredRecords = users.filter((record) => {
+      return record.nombre.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setRecords(filteredRecords);
+  };
+
+  function Loader() {
+    return <div>
+      <h1 className='text-center'>Cargando ...</h1>
+    </div>
+  }
 
   return (
-    <div className="overflow-x-auto">
-      <Title>Users</Title>
-      <Text>Usuarios a cargo de Adultos Mayores</Text>
-      <Table hoverable>
-        <Table.Head>
-          <Table.HeadCell>Nombre</Table.HeadCell>
-          <Table.HeadCell>Grupo</Table.HeadCell>
-          <Table.HeadCell>Email</Table.HeadCell>
-          <Table.HeadCell>Rutas</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {users.map((user) => (
-            <Table.Row key={user.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {user.nombre}
-              </Table.Cell>
-              <Table.Cell>{user.grupo}</Table.Cell>
-              <Table.Cell>{user.email}</Table.Cell>
-              <Table.Cell>
-                <Link href={`/map/${user.id}`} className='Btn'>
-                  Edit
-                </Link>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+    <div className="w-full max-w-5xl mx-auto my-4">
+      <input
+        type="text"
+        onChange={handleChange}
+        className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500 transition-colors duration-300"
+        placeholder="Buscar usuario..."
+      />
+
+      <DataTable
+        title="Datos de Usuario"
+        columns={columns}
+        data={records}
+        pagination
+        onSelectedRowsChange={(data) => console.log(data)}
+        fixedHeader
+        progressPending={loading}
+        progressComponent={<Loader />}
+        className="rounded-lg shadow-lg"
+        paginationPerPage={5}
+        noDataComponent={<div className="p-4 text-gray-500 rounded-md">No hay datos disponibles.</div>}
+      />
     </div>
   );
-}
+};
+
+export default TableUsers;

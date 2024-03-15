@@ -1,62 +1,105 @@
-'use client'
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Modal from 'react-modal';
+'use client';
+import { Card, Title, Text } from '@tremor/react';
+import { useState,useEffect, use } from 'react';
+import { db } from '../config/firebase'
+import DataTable from 'react-data-table-component';
+import { fetchRoutesFromDataBase, fetchUsersFromDataBase } from '../config/consultas'
+import { Table } from 'flowbite-react';
+import Link from 'next/link';
+function TableUsers() {
+  const [users, setUsers] = useState([]);
+  const [loadingData, setLoadingData] = useState(true); // Estado para controlar si se están cargando los datos
 
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
+  const columns = [
+    {
+      name: "Nombre",
+      selector: (row) => row.nombre,
+      sortable: true,
+    },
+    {
+      name: "Grupo",
+      selector: (row) => row.grupo,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Rutas",
+      selector: (row) => (
+        <Link href={`/map/${row.id}`} className='Btn bg-gradient-to-r from-blue-900 to-blue-600'>
+        Ver rutas
+      </Link>
+      
+      ),
+      sortable: true,
+    },
+  ];
+  const [records, setRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+ 
+      // setRecords(users);
+      setLoading(false);
+  }, []);
+  
+  const fetchData = async () => {
+    try {
+      const usersData = await fetchUsersFromDataBase(db);
+      setRecords(usersData);
+      setUsers(usersData);
+      setLoadingData(false); // Marcar como cargados los datos
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
-Modal.setAppElement('#__next'); // Cambiar a '__next' para Next.js 14
+  useEffect(() => {
+    if (loadingData) { // Solo cargar datos si aún no se han cargado
+      fetchData();
+    }
+  }, [loadingData]); // Eje
 
-function App() {
-  let subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const handleChange = (e) => {
+    const filteredRecords = users.filter((record) => {
+      return record.nombre.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setRecords(filteredRecords);
+  };
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = '#f00';
-  }
-
-  function closeModal() {
-    setIsOpen(false);
+  function Loader() {
+    return <div>
+      <h1 className='text-center'>Cargando ...</h1>
+    </div>
   }
 
   return (
-    <div>
-      <button onClick={openModal}>Open Modal</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
-        <button onClick={closeModal}>close</button>
-        <div>I am a modal</div>
-        <form>
-          <input />
-          <button>tab navigation</button>
-          <button>stays</button>
-          <button>inside</button>
-          <button>the modal</button>
-        </form>
-      </Modal>
+    <div className="w-full max-w-5xl mx-auto my-4">
+      <input
+        type="text"
+        onChange={handleChange}
+        className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500 transition-colors duration-300"
+        placeholder="Buscar usuario..."
+      />
+
+      <DataTable
+        title="Datos de Usuario"
+        columns={columns}
+        data={records}
+        pagination
+        onSelectedRowsChange={(data) => console.log(data)}
+        fixedHeader
+        progressPending={loading}
+        progressComponent={<Loader />}
+        className="rounded-lg shadow-lg"
+        paginationPerPage={5}
+        noDataComponent={<div className="p-4 text-gray-500 rounded-md">No hay datos disponibles.</div>}
+      />
     </div>
   );
-}
+};
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(<App />, rootElement);
+export default TableUsers;

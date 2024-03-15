@@ -15,6 +15,7 @@ import Mapa from './mapa';
 import { fetchRoutesFromDataBase } from '@/app/config/consultas';
 import { db } from '../../config/firebase';
 import dynamic from "next/dynamic";
+import ModalComponent from './Modal'
 
 // Componente: HeroLocation
 
@@ -92,8 +93,9 @@ export default function Rutas({ params }) {
         </Sidebar.Items>
       </Sidebar>
       <div style={{ overflow: 'hidden' }}>
-        
-        {selectedUserId && <Mapa users={users} selectedUserId={selectedUserId}></Mapa>}
+        {/* Verifica si no hay usuarios disponibles */}
+        {(!users || users.length === 0 || !selectedUserId) && <ModalComponent />}
+        {selectedUserId && <Mapa users={users} selectedUserId={selectedUserId}></Mapa>}  
       </div>
       </div>
   );
