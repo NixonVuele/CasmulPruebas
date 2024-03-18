@@ -1,54 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 .Btn {
-    width: 130px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #62B2CF;
-    border: none;
-    border-radius: 5px;
-    color: #ffff;
-    font-weight: 600;
-    gap: 8px;
-    cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    overflow: hidden;
-    transition-duration: .3s;
-  }
-  
-  .svgIcon {
-    width: 16px;
-  }
-  
-  .svgIcon path {
-    fill: white;
-  }
-  
-  .Btn::before {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    content: "";
-    background-color: white;
-    border-radius: 50%;
-    left: -100%;
-    top: 0;
-    transition-duration: .3s;
-    mix-blend-mode: difference;
-  }
-  
-  .Btn:hover::before {
-    transition-duration: .3s;
-    transform: translate(100%,-50%);
-    border-radius: 0;
-  }
-  
-  .Btn:active {
-    transform: translate(5px,5px);
-    transition-duration: .3s;
-  }
+  width: 130px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #62B2CF;
+  border: none;
+  border-radius: 5px;
+  color: #ffff;
+  font-weight: 600;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+}
+
+.svgIcon {
+  width: 16px;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.Btn::before {
+  width: 130px;
+  height: 40px; /* Modificación: Ajusta la altura para que coincida con la del botón */
+  position: absolute;
+  content: "";
+  background: #00F260;
+  background: -webkit-linear-gradient(to right, #62B2CF, #0575E6);
+  background: linear-gradient(to right,#62B2CF, #0575E6);
+  border-radius: 5px; /* Modificación: Ajusta el borde del pseudo-elemento */
+  left: 0;
+  top: 0;
+  z-index: -1; /* Modificación: Mueve el pseudo-elemento detrás del contenido */
+  transition-duration: .3s;
+}
+
+.Btn:hover::before {
+  transition-duration: .3s;
+  transform: translateX(100%); /* Modificación: Simplifica la transformación */
+}
+
+.Btn:active {
+  transform: translate(5px, 5px);
+  transition-duration: .3s;
+}

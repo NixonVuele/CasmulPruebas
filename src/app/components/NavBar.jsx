@@ -41,6 +41,7 @@ export default function NavBar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
+                  <Link href="/usuarios">
                   <Image
                     className="h-8 w-auto"
                     width={500}
@@ -48,6 +49,7 @@ export default function NavBar() {
                     src=  {imagenIcon}
                     alt="Your Company"
                   />
+                  </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -98,6 +100,7 @@ export default function NavBar() {
                         {({ active }) => (
                           <a onClick={signOut}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            style={{ cursor: 'pointer' }}
                           >
                             Cerrar Sesión
                           </a>

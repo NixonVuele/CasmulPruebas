@@ -17,7 +17,6 @@ const authOptions =     {
                 const user = userFound.find(user => user.email === credentials.email);
                 if(!user) return null;
                 const acceso = user.password === credentials.password
-                console.log(user)
                 if (!acceso) return null;  
                 
                 return {

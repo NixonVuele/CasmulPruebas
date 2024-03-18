@@ -21,6 +21,8 @@ export async function fetchUsersAdministrativosFromDataBase(db) {
     try {
         const usersQuerySnapshot = await getDocs(collection(db, "usuariosAdministrativos"));
         const users = usersQuerySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        console.log('estos son los usuarios administrativovs');
+        console.log(users);
         return users;
     } catch (error) {
         console.error("Error fetching users:", error);
@@ -31,16 +33,8 @@ export async function fetchUsersAdministrativosFromDataBase(db) {
 // Función para recuperar las rutas de un solo usuario de la base de datos
 export async function fetchRoutesFromDataBase(db, { params: { id },selectedDate , firstLoad }) {
     try {
-        console.log(firstLoad)
         //const { id, selectedDate } = params;
         const fechaDada = new Date(selectedDate);
-        
-        //const fecha = timestamp.toDate();
-
-        //console.log(fecha);
-        console.log('EStoy desde la consulta')
-        console.log(fechaDada)
-        console.log('EStoy desde la consulta')
         const userDocRef = doc(db, "usuarios", id);
         const routesCollectionRef = await getDocs(collection(userDocRef, "routes"));
 
@@ -64,10 +58,8 @@ export async function fetchRoutesFromDataBase(db, { params: { id },selectedDate 
             
           });
 
-        console.log(routes);
         //return routes;
         const rutasCoincidentes = routes.filter(route => route.sonIguales);
-        console.log(rutasCoincidentes)
         // Si hay rutas coincidentes, tomar todos los datos
         if (rutasCoincidentes.length > 0) {
             return rutasCoincidentes;
@@ -87,14 +79,6 @@ export async function fetchRoutesFromDataBase(db, { params: { id },selectedDate 
                 createdAt.getFullYear() === fechaMasReciente.getFullYear()
             );
             });
-        
-            console.log(objetosFiltrados);
-            console.log(objetosFiltrados)
-
-
-            console.log("la fecha mas alta es:",fechaMasReciente )
-            //console.log( [routes[routes.length - 2]])
-
             // Si no hay rutas coincidentes, devolver todos los datos de todas las rutas de la última fecha registrada
             return objetosFiltrados;}
             
@@ -104,4 +88,6 @@ export async function fetchRoutesFromDataBase(db, { params: { id },selectedDate 
         console.error("Error fetching routes:", error);
         throw error;
     }
+
+    
 }

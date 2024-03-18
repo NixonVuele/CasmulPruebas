@@ -83,14 +83,6 @@ const LoginForm = () => {
                 >
                   Contraseña
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Olvidé mi Contraseña
-                  </a>
-                </div>
               </div>
               <div className="mt-2">
                 <input

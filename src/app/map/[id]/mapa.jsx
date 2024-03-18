@@ -8,7 +8,6 @@ import { useMapEvent ,useMap} from 'react-leaflet';
 
 function CentradoRuta({ coordenada }) {
   const map = useMap();
-  console.log(coordenada)
   
   // Esta función se ejecutará cada vez que la coordenada cambie
   useEffect(() => {
@@ -22,10 +21,6 @@ function CentradoRuta({ coordenada }) {
 
 
 export default function Mapa({ users,selectedUserId}) {
-  console.log('estoy desde mapa')
-  
-  console.log(selectedUserId)
-  console.log(users)
     // Verificar si el arreglo de usuarios está vacío
   if (!Array.isArray(users) || users.length === 0) {
     return renderEmptyMap();
