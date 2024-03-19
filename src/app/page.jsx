@@ -1,11 +1,13 @@
 'use client';
 import { Card, Title, Text } from '@tremor/react';
 import { useState,useEffect, use } from 'react';
-import { db } from '../config/firebase'
+import { db } from '../../config/firebase'
 import DataTable from 'react-data-table-component';
-import { fetchRoutesFromDataBase, fetchUsersFromDataBase } from '../config/consultas'
-import { Table } from 'flowbite-react';
+import { fetchRoutesFromDataBase, fetchUsersFromDataBase } from '../../config/consultas'
+//import { Navbar, Table } from 'flowbite-react';
 import Link from 'next/link';
+import NavBar from './components/NavBar'  ;
+
 function TableUsers() {
   const [users, setUsers] = useState([]);
   const [loadingData, setLoadingData] = useState(true); // Estado para controlar si se están cargando los datos
@@ -29,7 +31,7 @@ function TableUsers() {
     {
       name: "Rutas",
       selector: (row) => (
-        <Link href={`/map/${row.id}`} className='Btn bg-gradient-to-r from-blue-900 to-blue-600'>
+        <Link href={`/map/${row.id}`} className='Btn bg-[#7A6F6A]'>
         Ver rutas
       </Link>
       
@@ -77,6 +79,10 @@ function TableUsers() {
   }
 
   return (
+    <>
+    <NavBar>
+
+    </NavBar>
     <div className="w-full max-w-5xl mx-auto my-4">
       <input
         type="text"
@@ -99,6 +105,7 @@ function TableUsers() {
         noDataComponent={<div className="p-4 text-gray-500 rounded-md">No hay datos disponibles.</div>}
       />
     </div>
+    </>
   );
 };
 
