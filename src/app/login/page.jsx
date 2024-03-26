@@ -27,7 +27,7 @@ const LoginForm = () => {
     if(res.error){
         alert(res.error);
     }else{
-      router.push('/usuarios')
+      router.push('/')
     }
 
     // Limpia los campos después de enviar el formulario
