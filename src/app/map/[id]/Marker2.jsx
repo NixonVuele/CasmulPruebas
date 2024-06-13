@@ -18,7 +18,7 @@ export default function Marker2({latitud, longitud, message}) {
         })
     } position={[latitud,longitud]}>
          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            {message}.
         </Popup>
     </Marker>
   )

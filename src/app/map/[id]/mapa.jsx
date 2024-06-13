@@ -58,8 +58,8 @@ export default function Mapa({ users,selectedUserId}) {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <CentradoRuta coordenada={coord} />
-        <Marker2 latitud={latitudInicial} longitud={longitudInicial}></Marker2>
-        <Marker2 latitud={latitudFinal} longitud={longitudFinal}></Marker2>
+        <Marker2 latitud={latitudInicial} longitud={longitudInicial} message={'Punto de partida'}></Marker2>
+        <Marker2 latitud={latitudFinal} longitud={longitudFinal} message={'Final de la ruta'}></Marker2>
         
         <Polyline pathOptions={limeOptions} positions={polyline2} />
     </MapContainer>    
